@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brasa — Pizza napolitana, feita como sempre foi.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #17120D;
+    --charcoal-2: #1F1810;
+    --charcoal-3: #241C13;
+    --crema: #F6EFE3;
+    --crema-dim: #C9BEAC;
+    --crema-faint: #8C8375;
+    --ember: #E3572F;
+    --ember-deep: #B23A1D;
+    --gold: #C9A227;
+    --olive: #6E7C49;
+    --line: rgba(246,239,227,0.10);
+    --line-strong: rgba(246,239,227,0.18);
+    --radius-s: 10px;
+    --radius-m: 18px;
+    --radius-l: 28px;
+    --ease: cubic-bezier(.16,.8,.24,1);
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+
+  body{
+    background:var(--charcoal);
+    color:var(--crema);
+    font-family:'Inter', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,h4,.display{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    line-height:1.05;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+  ul{ list-style:none; }
+
+  .wrap{
+    max-width:1160px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  .eyebrow{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--ember);
+  }
+
+  /* ---------- Leopard-spot signature texture ---------- */
+  .spots{
+    width:100%;
+    height:34px;
+    background-image:
+      radial-gradient(circle at 6% 40%, rgba(227,87,47,0.55) 0 3px, transparent 4px),
+      radial-gradient(circle at 14% 65%, rgba(201,162,39,0.4) 0 2px, transparent 3px),
+      radial-gradient(circle at 23% 30%, rgba(227,87,47,0.35) 0 4px, transparent 5px),
+      radial-gradient(circle at 33% 55%, rgba(201,162,39,0.5) 0 2px, transparent 3px),
+      radial-gradient(circle at 41% 20%, rgba(227,87,47,0.45) 0 3px, transparent 4px),
+      radial-gradient(circle at 52% 60%, rgba(227,87,47,0.3) 0 5px, transparent 6px),
+      radial-gradient(circle at 61% 35%, rgba(201,162,39,0.4) 0 2px, transparent 3px),
+      radial-gradient(circle at 70% 55%, rgba(227,87,47,0.5) 0 3px, transparent 4px),
+      radial-gradient(circle at 79% 25%, rgba(201,162,39,0.35) 0 3px, transparent 4px),
+      radial-gradient(circle at 88% 50%, rgba(227,87,47,0.4) 0 4px, transparent 5px),
+      radial-gradient(circle at 95% 30%, rgba(201,162,39,0.45) 0 2px, transparent 3px);
+    opacity:0.9;
+  }
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(23,18,13,0.55);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border-bottom:1px solid transparent;
+    transition:border-color .4s var(--ease), background .4s var(--ease);
+  }
+  header.scrolled{
+    background:rgba(23,18,13,0.86);
+    border-bottom-color:var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 32px;
+    max-width:1160px; margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-weight:600; font-size:20px;
+    letter-spacing:0.02em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo-mark{
+    width:9px; height:9px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #FFAE85, var(--ember) 60%, var(--ember-deep));
+    box-shadow:0 0 10px rgba(227,87,47,0.7);
+  }
+  .nav-links{
+    display:flex; align-items:center; gap:36px;
+    font-size:14px; font-weight:500; color:var(--crema-dim);
+  }
+  .nav-links a{ transition:color .25s var(--ease); position:relative; }
+  .nav-links a:hover{ color:var(--crema); }
+  .nav-cta{
+    padding:10px 20px;
+    border:1px solid var(--line-strong);
+    border-radius:100px;
+    font-size:13px; font-weight:600;
+    color:var(--crema);
+    transition:all .25s var(--ease);
+    white-space:nowrap;
+  }
+  .nav-cta:hover{ background:var(--crema); color:var(--charcoal); border-color:var(--crema); }
+  .nav-toggle{ display:none; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:160px 32px 100px;
+    overflow:hidden;
+  }
+  .ember-glow{
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(227,87,47,0.28) 0%, rgba(227,87,47,0.10) 32%, rgba(23,18,13,0) 65%);
+    filter:blur(10px);
+    animation:emberPulse 7s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes emberPulse{
+    0%,100%{ opacity:0.75; transform:translate(-50%,-50%) scale(1); }
+    50%{ opacity:1; transform:translate(-50%,-50%) scale(1.08); }
+  }
+  .hero-eyebrow{
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:28px;
+    opacity:0; animation:fadeUp .9s var(--ease) forwards; animation-delay:.1s;
+  }
+  .hero h1{
+    position:relative; z-index:2;
+    font-size:clamp(40px, 8vw, 92px);
+    max-width:920px;
+    color:var(--crema);
+    opacity:0; animation:fadeUp 1s var(--ease) forwards; animation-delay:.25s;
+  }
+  .hero h1 em{
+    font-style:italic; font-weight:500; color:var(--ember);
+  }
+  .hero p{
+    position:relative; z-index:2;
+    margin-top:26px;
+    max-width:560px;
+    font-size:18px;
+    color:var(--crema-dim);
+    opacity:0; animation:fadeUp 1s var(--ease) forwards; animation-delay:.4s;
+  }
+  .hero-actions{
+    position:relative; z-index:2;
+    display:flex; gap:16px; margin-top:44px; flex-wrap:wrap; justify-content:center;
+    opacity:0; animation:fadeUp 1s var(--ease) forwards; animation-delay:.55s;
+  }
+  .btn{
+    padding:15px 30px;
+    border-radius:100px;
+    font-size:14px; font-weight:600;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+    display:inline-block;
+  }
+  .btn-primary{
+    background:linear-gradient(180deg, #ED7248, var(--ember-deep));
+    color:#fff;
+    box-shadow:0 8px 24px -6px rgba(227,87,47,0.55);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -6px rgba(227,87,47,0.7); }
+  .btn-ghost{
+    border:1px solid var(--line-strong);
+    color:var(--crema);
+  }
+  .btn-ghost:hover{ background:rgba(246,239,227,0.06); transform:translateY(-2px); }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .hero-spots{ position:absolute; bottom:0; left:0; right:0; }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal{ opacity:0; transform:translateY(28px); transition:opacity .8s var(--ease), transform .8s var(--ease); }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  /* ---------- Trust bar ---------- */
+  .trust{
+    padding:64px 32px;
+    border-bottom:1px solid var(--line);
+  }
+  .trust-inner{
+    max-width:1160px; margin:0 auto;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:36px;
+  }
+  .rating-block{ display:flex; align-items:center; gap:16px; }
+  .rating-num{ font-family:'Fraunces', serif; font-size:44px; font-weight:600; color:var(--crema); }
+  .stars{ color:var(--gold); font-size:15px; letter-spacing:2px; }
+  .rating-sub{ font-size:13px; color:var(--crema-faint); margin-top:2px; }
+  .accolades{ display:flex; gap:44px; flex-wrap:wrap; }
+  .accolade{ font-size:13px; color:var(--crema-dim); max-width:150px; line-height:1.4; }
+  .accolade strong{ display:block; color:var(--crema); font-size:14px; margin-bottom:3px; font-weight:600; }
+
+  /* ---------- Section base ---------- */
+  section{ position:relative; }
+  .section-pad{ padding:140px 32px; }
+  @media (max-width:768px){ .section-pad{ padding:88px 24px; } }
+
+  .section-head{ max-width:640px; margin-bottom:64px; }
+  .section-head h2{ font-size:clamp(30px, 4.4vw, 48px); margin-top:14px; color:var(--crema); }
+  .section-head p{ margin-top:18px; font-size:17px; color:var(--crema-dim); }
+
+  /* ---------- Story ---------- */
+  .story{ background:var(--charcoal-2); }
+  .story-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center;
+    max-width:1160px; margin:0 auto;
+  }
+  .story-art{
+    aspect-ratio:4/5; border-radius:var(--radius-l);
+    background:
+      radial-gradient(circle at 30% 25%, rgba(227,87,47,0.5), transparent 45%),
+      radial-gradient(circle at 75% 70%, rgba(201,162,39,0.35), transparent 50%),
+      linear-gradient(160deg, #2A2015, #17120D 70%);
+    position:relative; overflow:hidden;
+    box-shadow:0 40px 80px -30px rgba(0,0,0,0.6);
+  }
+  .story-art::after{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,0.4) 0 14px, transparent 15px),
+      radial-gradient(circle at 65% 20%, rgba(0,0,0,0.35) 0 10px, transparent 11px),
+      radial-gradient(circle at 80% 55%, rgba(0,0,0,0.4) 0 16px, transparent 17px),
+      radial-gradient(circle at 35% 70%, rgba(0,0,0,0.3) 0 12px, transparent 13px),
+      radial-gradient(circle at 55% 85%, rgba(0,0,0,0.35) 0 10px, transparent 11px);
+  }
+  .story-text .eyebrow{ margin-bottom:18px; display:block; }
+  .story-text h2{ font-size:clamp(28px,3.6vw,40px); color:var(--crema); margin-bottom:22px; }
+  .story-text p{ color:var(--crema-dim); font-size:16px; margin-bottom:16px; }
+  .story-text p strong{ color:var(--crema); font-weight:600; }
+  .signature{ margin-top:8px; font-family:'Fraunces', serif; font-style:italic; color:var(--gold); font-size:17px; }
+
+  @media (max-width:860px){
+    .story-grid{ grid-template-columns:1fr; gap:44px; }
+  }
+
+  /* ---------- Menu ---------- */
+  .menu-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+    max-width:1160px; margin:0 auto;
+  }
+  .dish{
+    background:var(--charcoal-3);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    overflow:hidden;
+    transition:transform .4s var(--ease), border-color .4s var(--ease), box-shadow .4s var(--ease);
+  }
+  .dish:hover{ transform:translateY(-6px); border-color:var(--line-strong); box-shadow:0 30px 50px -25px rgba(0,0,0,0.6); }
+  .dish-art{
+    aspect-ratio:16/11; position:relative; overflow:hidden;
+  }
+  .dish-art::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 22% 28%, rgba(0,0,0,0.32) 0 9px, transparent 10px),
+      radial-gradient(circle at 68% 18%, rgba(0,0,0,0.28) 0 7px, transparent 8px),
+      radial-gradient(circle at 80% 60%, rgba(0,0,0,0.32) 0 10px, transparent 11px),
+      radial-gradient(circle at 30% 75%, rgba(0,0,0,0.26) 0 8px, transparent 9px),
+      radial-gradient(circle at 55% 45%, rgba(0,0,0,0.22) 0 6px, transparent 7px);
+    transition:transform .5s var(--ease);
+  }
+  .dish:hover .dish-art::before{ transform:scale(1.08); }
+  .dish-body{ padding:24px 24px 28px; }
+  .dish-top{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+  .dish-name{ font-family:'Fraunces', serif; font-size:20px; font-weight:600; color:var(--crema); }
+  .dish-price{ font-size:15px; font-weight:600; color:var(--gold); white-space:nowrap; }
+  .dish-desc{ margin-top:10px; font-size:14px; color:var(--crema-faint); line-height:1.55; }
+
+  .art-margherita{ background:linear-gradient(150deg,#C1421D,#7A2A15 65%); }
+  .art-marinara{ background:linear-gradient(150deg,#8E2E10,#4A1A0D 65%); }
+  .art-diavola{ background:linear-gradient(150deg,#D6431F,#5C1C0C 65%); }
+  .art-tartufo{ background:linear-gradient(150deg,#4A4030,#221D14 65%); }
+  .art-formaggi{ background:linear-gradient(150deg,#B68A2E,#5C4517 65%); }
+  .art-burrata{ background:linear-gradient(150deg,#C46B3C,#7A3A1A 65%); }
+
+  @media (max-width:900px){ .menu-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:600px){ .menu-grid{ grid-template-columns:1fr; } }
+
+  .menu-note{ text-align:center; margin-top:48px; font-size:14px; color:var(--crema-faint); }
+
+  /* ---------- Specs / process ---------- */
+  .process{ background:var(--charcoal-2); }
+  .specs-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    overflow:hidden;
+    max-width:1160px; margin:0 auto;
+  }
+  .spec{
+    background:var(--charcoal-2);
+    padding:40px 28px;
+    text-align:center;
+  }
+  .spec-num{ font-family:'Fraunces', serif; font-size:40px; font-weight:600; color:var(--ember); }
+  .spec-label{ margin-top:10px; font-size:13px; color:var(--crema-dim); line-height:1.4; }
+  @media (max-width:860px){ .specs-grid{ grid-template-columns:1fr 1fr; } }
+
+  /* ---------- Reviews ---------- */
+  .reviews-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:28px;
+    max-width:1160px; margin:0 auto;
+  }
+  .review{
+    padding:32px;
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    background:var(--charcoal-3);
+  }
+  .review .stars{ margin-bottom:18px; }
+  .review p{ font-size:15.5px; color:var(--crema-dim); line-height:1.65; }
+  .review-who{ margin-top:22px; display:flex; align-items:center; gap:12px; }
+  .avatar{
+    width:36px; height:36px; border-radius:50%;
+    background:linear-gradient(135deg, var(--ember), var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:700; color:#1a1208;
+  }
+  .review-who span{ font-size:13.5px; font-weight:600; color:var(--crema); }
+  .review-who small{ display:block; font-size:12px; color:var(--crema-faint); font-weight:400; }
+  @media (max-width:900px){ .reviews-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- Location ---------- */
+  .location-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    max-width:1160px; margin:0 auto;
+    border:1px solid var(--line); border-radius:var(--radius-l); overflow:hidden;
+  }
+  .location-info{ padding:64px 56px; background:var(--charcoal-3); }
+  .location-info h2{ font-size:clamp(26px,3vw,36px); color:var(--crema); margin-bottom:28px; }
+  .info-row{ display:flex; gap:16px; padding:18px 0; border-top:1px solid var(--line); }
+  .info-row:first-of-type{ border-top:none; }
+  .info-row .k{ width:110px; flex-shrink:0; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--crema-faint); padding-top:2px; }
+  .info-row .v{ font-size:15px; color:var(--crema-dim); line-height:1.6; }
+  .info-row .v strong{ color:var(--crema); font-weight:600; }
+  .location-info .btn-primary{ margin-top:32px; }
+  .location-map{
+    position:relative;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(227,87,47,0.22), transparent 55%),
+      linear-gradient(160deg, #241C13, #17120D 75%);
+    min-height:420px;
+  }
+  .location-map::before{
+    content:""; position:absolute; inset:0; opacity:0.5;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:44px 44px;
+  }
+  .pin{
+    position:absolute; top:48%; left:52%; transform:translate(-50%,-50%);
+    width:18px; height:18px; border-radius:50% 50% 50% 0;
+    background:var(--ember);
+    transform-origin:bottom;
+    box-shadow:0 0 0 8px rgba(227,87,47,0.18);
+  }
+  @media (max-width:860px){
+    .location-grid{ grid-template-columns:1fr; }
+    .location-info{ padding:48px 30px; }
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:64px 32px 40px;
+    border-top:1px solid var(--line);
+  }
+  .footer-inner{
+    max-width:1160px; margin:0 auto;
+    display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:32px;
+  }
+  .footer-links{ display:flex; gap:32px; font-size:13.5px; color:var(--crema-dim); flex-wrap:wrap; }
+  .footer-links a:hover{ color:var(--crema); }
+  .footer-bottom{
+    max-width:1160px; margin:40px auto 0; padding-top:24px; border-top:1px solid var(--line);
+    font-size:12.5px; color:var(--crema-faint);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+  }
+
+  /* ---------- Mobile nav ---------- */
+  @media (max-width:760px){
+    .nav-links{
+      position:fixed; top:64px; left:0; right:0; bottom:0;
+      background:rgba(23,18,13,0.98);
+      flex-direction:column; justify-content:flex-start;
+      padding:40px 32px; gap:26px; font-size:18px;
+      transform:translateX(100%); transition:transform .4s var(--ease);
+    }
+    .nav-links.open{ transform:translateX(0); }
+    .nav-toggle{
+      display:flex; flex-direction:column; gap:5px; width:24px; z-index:200;
+    }
+    .nav-toggle span{ height:2px; background:var(--crema); border-radius:2px; transition:all .3s var(--ease); }
+  }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <nav class="nav">
+    <a href="#top" class="logo"><span class="logo-mark"></span>BRASA</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#cardapio">Cardápio</a></li>
+      <li><a href="#historia">Nossa história</a></li>
+      <li><a href="#avaliacoes">Avaliações</a></li>
+      <li><a href="#local">Localização</a></li>
+      <li><a href="#reservar" class="nav-cta" style="display:inline-block;">Reservar mesa</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="ember-glow"></div>
+  <div class="hero-eyebrow">★★★★★ 4,9 · Melhor pizzaria da cidade</div>
+  <h1>Algumas coisas<br>não devem ter <em>pressa.</em></h1>
+  <p>Setenta e duas horas de fermentação. Noventa segundos num forno a lenha de 480°C. Uma pizza, feita como sempre foi feita — desde 1994.</p>
+  <div class="hero-actions">
+    <a href="#reservar" class="btn btn-primary">Reservar uma mesa</a>
+    <a href="#cardapio" class="btn btn-ghost">Ver o cardápio</a>
+  </div>
+  <div class="hero-spots spots"></div>
+</section>
+
+<section class="trust">
+  <div class="trust-inner reveal">
+    <div class="rating-block">
+      <div class="rating-num">4,9</div>
+      <div>
+        <div class="stars">★★★★★</div>
+        <div class="rating-sub">+2.400 avaliações verificadas</div>
+      </div>
+    </div>
+    <div class="accolades">
+      <div class="accolade"><strong>Melhor Pizzaria</strong>Prêmio Paladar da Cidade — 5 anos seguidos</div>
+      <div class="accolade"><strong>Selo Ouro</strong>Associação Verace Pizza Napoletana</div>
+      <div class="accolade"><strong>Top 10 Brasil</strong>Guia das Melhores Pizzarias, 2025</div>
+    </div>
+  </div>
+</section>
+
+<section class="story section-pad" id="historia">
+  <div class="story-grid">
+    <div class="story-art reveal"></div>
+    <div class="story-text reveal">
+      <span class="eyebrow">Desde 1994</span>
+      <h2>Um forno trazido de Nápoles. Uma família que nunca o deixou apagar.</h2>
+      <p><strong>Tudo começou com um forno de 3 toneladas</strong>, construído por artesãos napolitanos e montado tijolo por tijolo na esquina onde estamos até hoje. Ele nunca esfriou — está aceso desde a primeira massa, há mais de trinta anos.</p>
+      <p>Usamos apenas farinha italiana tipo 00, tomates San Marzano DOP e mussarela de búfala importada semanalmente. A massa descansa por 72 horas antes de ir ao forno, o tempo que ela precisa para ficar leve, e não um minuto a menos.</p>
+      <p class="signature">"Uma pizzaria não se mede pelo cardápio. Mede-se pelo que ela recusa a apressar." — Família Conti, fundadores</p>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="cardapio">
+  <div class="section-head reveal">
+    <span class="eyebrow">Cardápio</span>
+    <h2>Seis pizzas. Nenhuma pressa.</h2>
+    <p>Preferimos fazer poucas coisas extremamente bem do que muitas apenas razoavelmente. Este é o cardápio inteiro.</p>
+  </div>
+  <div class="menu-grid">
+    <div class="dish reveal">
+      <div class="dish-art art-margherita"></div>
+      <div class="dish-body">
+        <div class="dish-top"><span class="dish-name">Margherita</span><span class="dish-price">R$ 52</span></div>
+        <p class="dish-desc">San Marzano DOP, mussarela de búfala, manjericão fresco, azeite extravirgem.</p>
+      </div>
+    </div>
+    <div class="dish reveal">
+      <div class="dish-art art-marinara"></div>
+      <div class="dish-body">
+        <div class="dish-top"><span class="dish-name">Marinara</span><span class="dish-price">R$ 44</span></div>
+        <p class="dish-desc">A original de Nápoles: tomate, alho laminado, orégano selvagem, azeite — sem queijo.</p>
+      </div>
+    </div>
+    <div class="dish reveal">
+      <div class="dish-art art-diavola"></div>
+      <div class="dish-body">
+        <div class="dish-top"><span class="dish-name">Diavola</span><span class="dish-price">R$ 58</span></div>
+        <p class="dish-desc">Salame picante calabrês, mussarela, pimenta biquinho, mel de brotos.</p>
+      </div>
+    </div>
+    <div class="dish reveal">
+      <div class="dish-art art-tartufo"></div>
+      <div class="dish-body">
+        <div class="dish-top"><span class="dish-name">Tartufo Nero</span><span class="dish-price">R$ 79</span></div>
+        <p class="dish-desc">Creme de trufa negra, cogumelos salteados, fontina, raspas de trufa na hora.</p>
+      </div>
+    </div>
+    <div class="dish reveal">
+      <div class="dish-art art-formaggi"></div>
+      <div class="dish-body">
+        <div class="dish-top"><span class="dish-name">Quattro Formaggi</span><span class="dish-price">R$ 62</span></div>
+        <p class="dish-desc">Fontina, gorgonzola, parmesão 24 meses, mussarela de búfala, mel.</p>
+      </div>
+    </div>
+    <div class="dish reveal">
+      <div class="dish-art art-burrata"></div>
+      <div class="dish-body">
+        <div class="dish-top"><span class="dish-name">Burrata e Parma</span><span class="dish-price">R$ 74</span></div>
+        <p class="dish-desc">Base branca, presunto de Parma 18 meses, burrata fresca ao final, rúcula selvagem.</p>
+      </div>
+    </div>
+  </div>
+  <p class="menu-note">Todas as massas são fermentadas por 72h e assadas em forno a lenha em até 90 segundos.</p>
+</section>
+
+<div class="spots" style="max-width:1160px;margin:0 auto;"></div>
+
+<section class="process section-pad">
+  <div class="section-head reveal">
+    <span class="eyebrow">O processo</span>
+    <h2>Números que a gente não negocia.</h2>
+  </div>
+  <div class="specs-grid reveal">
+    <div class="spec"><div class="spec-num">480°C</div><div class="spec-label">Temperatura do forno a lenha</div></div>
+    <div class="spec"><div class="spec-num">90s</div><div class="spec-label">Tempo de cocção por pizza</div></div>
+    <div class="spec"><div class="spec-num">72h</div><div class="spec-label">Fermentação natural da massa</div></div>
+    <div class="spec"><div class="spec-num">1994</div><div class="spec-label">Ano em que o forno foi aceso</div></div>
+  </div>
+</section>
+
+<section class="section-pad" id="avaliacoes">
+  <div class="section-head reveal">
+    <span class="eyebrow">Avaliações</span>
+    <h2>O que dizem sobre nós</h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review reveal">
+      <div class="stars">★★★★★</div>
+      <p>Já morei em Nápoles e posso dizer: essa é a massa mais próxima da original que já comi fora da Itália. A borda é exatamente como deveria ser.</p>
+      <div class="review-who"><div class="avatar">MC</div><div><span>Marina C.</span><small>Cliente desde 2019</small></div></div>
+    </div>
+    <div class="review reveal">
+      <div class="stars">★★★★★</div>
+      <p>O atendimento é tão cuidadoso quanto a comida. Reservamos para um aniversário e cada detalhe foi pensado, sem exagero, só com atenção de verdade.</p>
+      <div class="review-who"><div class="avatar">RT</div><div><span>Rafael T.</span><small>Cliente desde 2021</small></div></div>
+    </div>
+    <div class="review reveal">
+      <div class="stars">★★★★★</div>
+      <p>Vale cada minuto de espera na fila. A Tartufo Nero é, sem exagero, a melhor pizza que já comi no Brasil.</p>
+      <div class="review-who"><div class="avatar">JL</div><div><span>Juliana L.</span><small>Cliente desde 2023</small></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section-pad" id="local" style="padding-bottom:140px;">
+  <div class="section-head reveal">
+    <span class="eyebrow">Visite-nos</span>
+    <h2>Nos encontre</h2>
+  </div>
+  <div class="location-grid reveal" id="reservar">
+    <div class="location-info">
+      <h2>Reserve sua mesa</h2>
+      <div class="info-row"><div class="k">Endereço</div><div class="v"><strong>Rua dos Ipês, 214</strong><br>Vila Amaro, Nova Odessa — SP</div></div>
+      <div class="info-row"><div class="k">Horário</div><div class="v">Ter a dom, <strong>18h às 23h30</strong><br>Fechado às segundas</div></div>
+      <div class="info-row"><div class="k">Contato</div><div class="v">(19) 3456-7890<br>contato@brasapizzaria.com.br</div></div>
+      <a href="tel:+551934567890" class="btn btn-primary">Ligar para reservar</a>
+    </div>
+    <div class="location-map">
+      <div class="pin"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <a href="#top" class="logo"><span class="logo-mark"></span>BRASA</a>
+    <div class="footer-links">
+      <a href="#cardapio">Cardápio</a>
+      <a href="#historia">Nossa história</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#local">Localização</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Brasa Pizzaria. Todos os direitos reservados.</span>
+    <span>Forno aceso desde 1994.</span>
+  </div>
+</footer>
+
+<script>
+  // Header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 30);
+  });
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle?.addEventListener('click', () => {
+    navLinks.classList.toggle('open');
+  });
+  navLinks?.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => navLinks.classList.remove('open'));
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
